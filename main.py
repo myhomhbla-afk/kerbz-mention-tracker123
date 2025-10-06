@@ -46,4 +46,13 @@ def run():
     save_seen(seen)
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+        print("Run completed successfully.")
+    except Exception as e:
+        import traceback, sys
+        print("\n=== ERROR: Kerbz Mention Tracker crashed ===")
+        traceback.print_exc()
+        print("=== END ERROR ===\n")
+        sys.exit(1)
+
