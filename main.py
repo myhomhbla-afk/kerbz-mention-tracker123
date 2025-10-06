@@ -1,17 +1,14 @@
 from datetime import datetime
 from pathlib import Path
-import sys
 from dateutil import tz
-
-# make src importable when run in GitHub Actions
-sys.path.append(str(Path(__file__).resolve().parent))
 
 from config import CONFIG
 from state import load_seen, save_seen
 from filters import is_excluded, has_kerbz_keyword, is_within_last_day
 from discord_client import post_daily_summary
-from providers.google_serpapi import search_serpapi
-from providers.reddit_praw import search_reddit
+from google_serpapi import search_serpapi
+from reddit_praw import search_reddit
+
 
 def run():
     seen = load_seen()
