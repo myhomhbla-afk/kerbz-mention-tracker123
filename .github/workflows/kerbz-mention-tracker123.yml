@@ -33,7 +33,7 @@ jobs:
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
           TIMEZONE: "America/New_York"
         run: |
-          python src/main.py
+          python main.py
 
       - name: Commit & push state
         run: |
