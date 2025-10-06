@@ -11,11 +11,11 @@ def search_reddit(creds: dict, queries: list[str], limit: int = 10):
             client_id=creds["client_id"],
             client_secret=creds["client_secret"],
             user_agent=creds["user_agent"],
-            check_for_async=False
+            check_for_async=False,
         )
         reddit.read_only = True
-    except Exception:
-        # Auth/connect issue -> skip reddit so workflow still passes
+    except Exception as e:
+        print(f"[reddit] auth/init error, skipping: {e}")
         return []
 
     results = []
@@ -23,7 +23,7 @@ def search_reddit(creds: dict, queries: list[str], limit: int = 10):
         try:
             for submission in reddit.subreddit("all").search(q, sort="new", time_filter="day", limit=limit):
                 created_utc = datetime.fromtimestamp(submission.created_utc, tz=timezone.utc)
-               text = (submission.title or "") + " " + (submission.selftext or "")
+                text = (submission.title or "") + " " + (submission.selftext or "")
                 results.append({
                     "id": f"reddit::{submission.id}",
                     "title": submission.title or "(untitled)",
@@ -32,6 +32,9 @@ def search_reddit(creds: dict, queries: list[str], limit: int = 10):
                     "created_utc": created_utc,
                     "source": "Reddit",
                 })
-        except Exception:
+        except Exception as e:
+            print(f"[reddit] query '{q}' failed, skipping: {e}")
             continue
+
     return results
+
