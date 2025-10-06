@@ -23,7 +23,7 @@ def search_reddit(creds: dict, queries: list[str], limit: int = 10):
         try:
             for submission in reddit.subreddit("all").search(q, sort="new", time_filter="day", limit=limit):
                 created_utc = datetime.fromtimestamp(submission.created_utc, tz=timezone.utc)
-                text = (submission.title or "") + " " + (submission.selftext or "")
+               text = (submission.title or "") + " " + (submission.selftext or "")
                 results.append({
                     "id": f"reddit::{submission.id}",
                     "title": submission.title or "(untitled)",
